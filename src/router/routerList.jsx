@@ -1,8 +1,8 @@
 import { lazy, Suspense } from "react";
 
-import Home from "../page/home/index.js";
+import Home from "../page/home/index.jsx";
 
-const TestList = lazy(() => import("../page/testlist/index.js"));
+const TestList = lazy(() => import("../page/testlist/index.jsx"));
 
 
 const lazyComponent = (Element) => <Suspense fallback={<>loading...</>}>{Element}</Suspense>
