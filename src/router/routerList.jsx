@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 
 import Home from "../page/home/index.jsx";
 
