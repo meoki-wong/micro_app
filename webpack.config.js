@@ -1,26 +1,29 @@
-const path = require("path");
-const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { appHtml } = require("./utils/path");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 const webpackbar = require("webpackbar");
+const path = require("path");
+
+const { appHtml } = require("./utils/path");
+const { devServer } = require("./utils/defineSystemInfo");
+
+
 
 module.exports = {
 	entry: "./src/index",
 	mode: "development",
 	cache: false,
-	devServer: {
-		port: 3000,
-		hot: true,
-        open: true,
-        compress: false, // 开发环境不开启gzip压缩  加快打包速度
-        historyApiFallback: true, // 解决刷新404问题
-
-	},
+    stats: "errors-only",
 	output: {
 		path: path.resolve(__dirname, "dist"),
-		filename: "[name].bundle.js",
 	},
+    optimization: {
+        splitChunks: {
+            chunks: "all"
+        }
+    },
 	module: {
 		rules: [
 			{
@@ -37,7 +40,10 @@ module.exports = {
 			},
 			{
 				test: /\.css$/i,
-				use: ["style-loader", "css-loader"],
+				use: [
+                    MiniCssExtractPlugin.loader,
+                    "css-loader",
+                ],
 			},
 		],
 	},
@@ -64,9 +70,22 @@ module.exports = {
 				sourceMap: true, //是否启用文件缓存
 				parallel: true, //使用多进程并行运行来提高构建速度
 			},
-		})
+		}),
+        // 清除dist目录
+        new CleanWebpackPlugin(),
+        new MiniCssExtractPlugin({
+            filename: "css/[name].css",
+            chunkFilename: "css/[name].css",
+        }),
+        new FriendlyErrorsWebpackPlugin({
+            compilationSuccessInfo: {
+                notes: ['老登你好，项目正运行在http://localhost:' + devServer.port]
+            },
+            clearConsole: true,
+        })
 	],
 	resolve: {
 		extensions: [".js", ".jsx"],
 	},
+    devServer
 };
