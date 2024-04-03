@@ -12,6 +12,14 @@ module.exports = {
 	devServer: {
 		port: 3000,
 		hot: true,
+        open: true,
+        compress: false, // 开发环境不开启gzip压缩  加快打包速度
+        historyApiFallback: true, // 解决刷新404问题
+
+	},
+	output: {
+		path: path.resolve(__dirname, "dist"),
+		filename: "[name].bundle.js",
 	},
 	module: {
 		rules: [
