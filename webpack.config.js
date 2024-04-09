@@ -19,6 +19,7 @@ module.exports = {
 	output: {
 		path: path.resolve(__dirname, "dist"),
 	},
+	
     optimization: {
         splitChunks: {
             chunks: "all"
@@ -86,6 +87,9 @@ module.exports = {
 	],
 	resolve: {
 		extensions: [".js", ".jsx"],
+		alias:{
+			'@':path.resolve('src')
+		},
 	},
     devServer
 };
