@@ -1,13 +1,16 @@
-import React, {useState} from'react';
-import UseRoute from './router'
-
+import React, {useEffect} from'react';
+// import UseRoute from './router'
+import AuthRoute from './router/authRoute'
 
 
 function App() {
+  useEffect(() => {
+    // AuthRoute()
+  }, [])
   
   return (
     <div className="App">
-      <UseRoute />
+      <AuthRoute />
     </div>
   );
 }
